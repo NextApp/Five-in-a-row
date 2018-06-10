@@ -1,10 +1,10 @@
 package com.tuyasmart.five;
 
 public class Nouser {
-	T a[] = new T[1000];
+	Node a[] = new Node[1000];
 	int len = 1;
 	int vis[][]=new int[20][20];
-	int add(T x) {
+	int add(Node x) {
 		int i = 1;
 		len++;
 		if (len != 2) {
@@ -22,20 +22,20 @@ public class Nouser {
 		vis[a[i].x][a[i].y]=i;
 		return i;
 	}
-	int addT(int x,int y,int score)
+	int addNode(int x, int y, int score)
 	{
-		T aa = new T();
+		Node aa = new Node();
 		aa.x = x;
 		aa.y = y;
 		aa.score = score;
     	return 	add(aa);
 	}
 
-	T delete(int x) {
+	Node delete(int x) {
 		int tmp, i=0;
 		if(len>1)len--;
 		else return null;
-		T as = new T();
+		Node as = new Node();
 		as.score = a[x].score;
 		as.x=a[x].x;
 		as.y=a[x].y;
@@ -56,7 +56,7 @@ public class Nouser {
 		
 		return as;
 	}
-	T deleteT(int x,int y)
+	Node deleteT(int x, int y)
 	{
 		if(vis[x][y]!=0)
 		{
@@ -66,21 +66,21 @@ public class Nouser {
 	}
 	public static void main(String arg[]) {
 		Nouser my = new Nouser();
-		T a = new T();
+		Node a = new Node();
 		a.x = 0;
 		a.y = 2;
 		a.score = 10;
 		my.add(a);
 
-		T b = new T();
+		Node b = new Node();
 		b.x = 0;
 		b.y = 2;
 		b.score = 155;
 		my.add(b);
-		T c = new T();
+		Node c = new Node();
 		c.score = 12;
 		my.add(c);
-		T d = new T();
+		Node d = new Node();
 		d.score = 11;
 		my.add(d);
 		// System.out.println(my.a[1].score);

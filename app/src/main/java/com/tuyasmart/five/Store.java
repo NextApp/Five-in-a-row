@@ -6,10 +6,10 @@ import java.util.Vector;
 
 
 public class Store {
-    Vector<T> x = new Vector<T>();
+    Vector<Node> x = new Vector<Node>();
 
     public void add(int xx, int yy, int s) {
-        T a = new T();
+        Node a = new Node();
         a.x = xx;
         a.y = yy;
         a.score = s;
@@ -20,8 +20,8 @@ public class Store {
         Collections.sort(x, new Comparator<Object>() {
 
             public int compare(Object left, Object right) {
-                T l = (T) left;
-                T r = (T) right;
+                Node l = (Node) left;
+                Node r = (Node) right;
                 return r.score - l.score;
             }
         });
@@ -38,7 +38,7 @@ public class Store {
         a.add(0, 3, 5);
         a.add(0, 4, 7);
         a.sort();
-        for (T t : a.x) {
+        for (Node t : a.x) {
             System.out.println(t.x + " " + t.y + " " + t.score);
         }
     }

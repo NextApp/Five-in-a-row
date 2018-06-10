@@ -1,14 +1,6 @@
 package com.tuyasmart.five;
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +10,10 @@ import android.graphics.RectF;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainLayout extends View {
     private static final String TAG = "MainLayout";
@@ -58,7 +54,7 @@ public class MainLayout extends View {
         f22 = (float) (minpixels / 600.0 * 22);
         f5 = (float) (minpixels / 600.0 * 5);
         gameover = false;
-        my.addT(7, 6, 5);
+        my.addNode(7, 6, 5);
         dx[0] = -1;
         dx[1] = 0;
         dx[2] = 1;
@@ -89,7 +85,7 @@ public class MainLayout extends View {
                         || vis[xx][yy] != 0)
                     continue;
                 if (my.vis[xx][yy] == 0)
-                    my.addT(xx, yy, 0);
+                    my.addNode(xx, yy, 0);
             }
         }
     }
@@ -194,13 +190,16 @@ public class MainLayout extends View {
         }
         for (int t = 0; t < 4; t++) {
             line[t] = M[t] + "B" + M[t + 4];
+            Log.d(TAG, line[t]);
             int id = compute(t);
             AI_id[ai.id[id]]++;
+            //分数
             sum += ai.score[id];
         }
         return sum;
     }
 
+    //用子串匹配评判函数中最大的值。
     private int compute(int t) {
         // TODO Auto-generated method stub
         int mm = 0;
@@ -218,6 +217,7 @@ public class MainLayout extends View {
         return id;
     }
 
+    //匹配字符串。
     private int search(String substring) {
         // TODO Auto-generated method stub
         int s = 0, e = ai.len - 1;
@@ -239,7 +239,7 @@ public class MainLayout extends View {
 
         // TODO Auto-generated method stub
         Nouser st = new Nouser();
-        int bx = -1, by = -1, score = -1;
+        int bx = -1, by = -1, score = -10000000;
         int v[] = new int[12];
         int OK = -1;
         P p = new P();
@@ -251,14 +251,16 @@ public class MainLayout extends View {
                 for (int x = 0; x <= 10; x++) AI_id[x] = 0;
                 int s = calculate(i, j);
                 vis[i][j] = -color;
+                Log.d(TAG, "s: " + s);
                 s += calculate(i, j);
+                Log.d(TAG, "s: " + s);
                 if (s > score) {
                     bx = i;
                     by = j;
                     score = s;
                 }
                 vis[i][j] = 0;
-                if (s >= 100) {
+                if (s >= 30) {
                     for (int x = 0; x <= 10; x++)
                         v[x] += AI_id[x];
                     p.add(i, j, s, AI_id);
@@ -309,9 +311,9 @@ public class MainLayout extends View {
             if (OK == -1) {
                 int len = st.len;
                 if (len == 1)
-                    st.addT(bx, by, score);
+                    st.addNode(bx, by, score);
                 for (int i = 1; i < len && i <= wo + 1; i++) {
-                    T t = st.delete(1);
+                    Node t = st.delete(1);
                     int x = t.x;
                     int y = t.y;
                     vis[x][y] = color;
@@ -325,7 +327,7 @@ public class MainLayout extends View {
                     if (move == mo) {
                         System.out.println(x + " " + y + " " + w + ">" + color);
                     }
-                    my.addT(x, y, 0);
+                    my.addNode(x, y, 0);
                     vis[x][y] = 0;
                     color = -color;
                     if (w == -1) {
